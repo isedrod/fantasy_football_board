@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smack Websmack</title>
+
+    <!--BOOTSTRAP CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <table class="table align-middle bg-white">
+            <thead class="bg-light">
+                <h1>Smack Board</h1>
+                <h2>Welcome, {{session ['first_name']}}</h2>
+                <p><a href="/smack/new">Add Some New Smack</a></p>
+                <div>
+                    <p><strong>Posts:</strong></p>
+                </div>
+                <tr>
+                    <th>Playing Against</th>
+                    <th>Week Playing</th>
+                    <th>Side Bet</th>
+                    <th>I'll win by</th>
+                    <th>What I need to tell you</th>
+                    <!-- <th>Image</th> -->
+                </tr>
+                {% for smack in list_smacks: %}
+                <tr>
+                    <td>
+                        {{smack.playing_against}}
+                    </td>
+                    <td>
+                        {{smack.week}}
+                    </td>
+                    <td>
+                        $ {{smack.bet}}
+                    </td>
+                    <td>
+                        {{smack.winning_by}}
+                    </td>
+                    <td>
+                        {{smack.smack}}
+                    </td>
+                    <td>
+                        <img class ="smack_box" src="{{ smack.gif_or_photo}}" alt="image">
+                    </td>
+
+                    <td>
+                        Posted By:{{smack.user.first_name}}
+                    </td>
+                    <td>
+                        <a href="/smacks/{{smack.id}}">
+                            View smack
+                        </a>
+                        {% if session['user_id'] == smack.user.id: %}
+                        |
+                        <a href="/smacks/{{smack.id}}/update" >
+                            Edit
+                        </a>
+                        |
+                        <a href="/smacks/{{smack.id}}/delete">
+                            Delete
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </thead>
+        </table>
+        <p><a href="/user/logout">Logout</a></p>
+        <a href="https://twitter.com/intent/tweet?button_hashtag=fantasyfootball&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #fantasyfootball</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+    <!-- BOOTSTRAP JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+        <!-- MY JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
